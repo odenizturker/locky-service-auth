@@ -1,0 +1,18 @@
+spring:
+  application.name: auth
+
+server:
+  port: 9000
+
+locky:
+  services:
+    client:
+      url: http://localhost:8081
+    user:
+      url: http://localhost:8082
+
+database:
+  endpoint: localhost:5432
+  name: demo
+  username: database_username
+  password: database_password

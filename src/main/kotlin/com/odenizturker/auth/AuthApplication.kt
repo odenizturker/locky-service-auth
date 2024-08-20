@@ -1,4 +1,4 @@
-package com.odenizturker.locky.auth
+package com.odenizturker.auth
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

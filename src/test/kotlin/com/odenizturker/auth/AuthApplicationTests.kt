@@ -1,4 +1,4 @@
-package com.odenizturker.locky.auth
+package com.odenizturker.auth
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
