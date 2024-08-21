@@ -1,6 +1,6 @@
 package com.odenizturker.auth.service
 
-import com.odenizturker.auth.config.UserRestClient
+import com.odenizturker.auth.config.UserClient
 import com.odenizturker.auth.model.user.UserCreationRequest
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserService(
-    private val userRestClient: UserRestClient,
+    private val userClient: UserClient,
     private val passwordEncoder: PasswordEncoder,
 ) : UserDetailsService {
     fun create(user: UserCreationRequest) {
-        userRestClient.create(
+        userClient.create(
             UserCreationRequest(
                 username = user.username,
                 password = passwordEncoder.encode(user.password),
@@ -21,5 +21,5 @@ class UserService(
         )
     }
 
-    override fun loadUserByUsername(username: String): UserDetails = userRestClient.getByUsername(username)
+    override fun loadUserByUsername(username: String): UserDetails = userClient.getByUsername(username)
 }

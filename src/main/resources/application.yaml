@@ -7,9 +7,9 @@ server:
 locky:
   services:
     client:
-      url: http://localhost:8081
+      url: http://localhost:9001
     user:
-      url: http://localhost:8082
+      url: http://localhost:9002
 
 database:
   endpoint: localhost:5432

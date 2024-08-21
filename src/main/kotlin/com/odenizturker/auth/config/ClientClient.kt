@@ -1,6 +1,7 @@
 package com.odenizturker.auth.config
 
 import com.odenizturker.auth.model.client.ClientCreationRequest
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient
@@ -9,9 +10,10 @@ import org.springframework.web.client.RestClient
 import java.util.UUID
 
 @Service
-class ClientRestClient(
+class ClientClient(
     @Value("\${locky.services.client.url}")
     private val url: String,
+    @Qualifier("clientRestClient")
     private val restClient: RestClient,
 ) {
     fun getById(id: UUID): RegisteredClient =
