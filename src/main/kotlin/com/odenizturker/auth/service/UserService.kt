@@ -2,10 +2,12 @@ package com.odenizturker.auth.service
 
 import com.odenizturker.auth.config.UserClient
 import com.odenizturker.auth.model.user.UserCreationRequest
+import com.odenizturker.auth.model.user.UserModel
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class UserService(
@@ -21,5 +23,15 @@ class UserService(
         )
     }
 
-    override fun loadUserByUsername(username: String): UserDetails = userClient.getByUsername(username)
+    override fun loadUserByUsername(username: String): UserDetails =
+        UserModel(
+            id = UUID.randomUUID(),
+            username = "username",
+            password = passwordEncoder.encode("password"),
+            authorities = setOf(),
+            accountExpired = false,
+            accountLocked = false,
+            credentialsExpired = false,
+            enabled = true,
+        )
 }

@@ -1,10 +1,9 @@
 package com.odenizturker.auth.config
 
 import com.odenizturker.auth.model.client.ClientCreationRequest
+import com.odenizturker.auth.model.client.ClientModel
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.ResponseEntity
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClient
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClient
 import java.util.UUID
@@ -16,14 +15,14 @@ class ClientClient(
     @Qualifier("clientRestClient")
     private val restClient: RestClient,
 ) {
-    fun getById(id: UUID): RegisteredClient =
+    fun getById(id: UUID): ClientModel =
         restClient
             .get()
             .uri("$url/clients/{id}", id)
             .retrieve()
-            .body(RegisteredClient::class.java)!!
+            .body(ClientModel::class.java)!!
 
-    fun getByClientId(clientId: String): RegisteredClient =
+    fun getByClientId(clientId: String): ClientModel =
         restClient
             .get()
             .uri { uriBuilder ->
@@ -32,13 +31,13 @@ class ClientClient(
                     .queryParam("clientId", clientId)
                     .build()
             }.retrieve()
-            .body(RegisteredClient::class.java)!!
+            .body(ClientModel::class.java)!!
 
-    fun create(clientCreationRequest: ClientCreationRequest): ResponseEntity<Void> =
+    fun create(clientCreationRequest: ClientCreationRequest): ClientModel =
         restClient
             .post()
             .uri("$url/clients")
             .body(clientCreationRequest)
             .retrieve()
-            .toBodilessEntity()
+            .body(ClientModel::class.java)!!
 }

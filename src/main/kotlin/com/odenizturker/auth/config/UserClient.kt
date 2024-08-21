@@ -1,10 +1,10 @@
 package com.odenizturker.auth.config
 
 import com.odenizturker.auth.model.user.UserCreationRequest
+import com.odenizturker.auth.model.user.UserModel
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 
@@ -15,16 +15,16 @@ class UserClient(
     @Qualifier("userRestClient")
     private val restClient: RestClient,
 ) {
-    fun getByUsername(username: String): UserDetails =
+    fun getByUsername(username: String): UserModel =
         restClient
             .get()
-            .uri { uriBuilder ->
+            .uri(url) { uriBuilder ->
                 uriBuilder
-                    .path("$url/users")
+                    .path("/users")
                     .queryParam("username", username)
                     .build()
             }.retrieve()
-            .body(UserDetails::class.java)!!
+            .body(UserModel::class.java)!!
 
     fun create(userCreationRequest: UserCreationRequest): ResponseEntity<Void> =
         restClient

@@ -1,13 +1,11 @@
 package com.odenizturker.auth.model.client
 
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.security.oauth2.jose.jws.JwsAlgorithm
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings as CS
 
 data class ClientSettings(
-    val requireProofKey: Boolean,
-    val requireAuthorizationConsent: Boolean,
+    val requireProofKey: Boolean?,
+    val requireAuthorizationConsent: Boolean?,
     val jwkSetUrl: String?,
     val tokenEndpointAuthenticationSigningAlgorithm: JwsAlgorithm?,
     val x509CertificateSubjectDN: String?,
@@ -20,5 +18,15 @@ data class ClientSettings(
         x509CertificateSubjectDN = client.x509CertificateSubjectDN,
     )
 
-    fun toMap(objectMapper: ObjectMapper): Map<String, Any> = objectMapper.convertValue(this, object : TypeReference<Map<String, Any>>() {})
+    fun toClientSettings(): CS {
+        val builder = CS.builder()
+
+        requireProofKey?.let { builder.requireProofKey(it) }
+        requireAuthorizationConsent?.let { builder.requireAuthorizationConsent(it) }
+        jwkSetUrl?.let { builder.jwkSetUrl(it) }
+        tokenEndpointAuthenticationSigningAlgorithm?.let { builder.tokenEndpointAuthenticationSigningAlgorithm(it) }
+        x509CertificateSubjectDN?.let { builder.x509CertificateSubjectDN(it) }
+
+        return builder.build()
+    }
 }

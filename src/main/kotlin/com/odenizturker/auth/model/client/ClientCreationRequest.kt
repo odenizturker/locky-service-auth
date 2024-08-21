@@ -6,8 +6,7 @@ import java.time.Instant
 
 data class ClientCreationRequest(
     val clientId: String,
-    val clientIdIssuedAt: Instant?,
-    val clientSecret: String?,
+    val clientSecret: String,
     val clientSecretExpiresAt: Instant?,
     val clientName: String,
     val clientAuthenticationMethods: Set<AuthenticationMethod>,
@@ -20,8 +19,7 @@ data class ClientCreationRequest(
 ) : Serializable {
     constructor(client: RegisteredClient) : this(
         clientId = client.clientId,
-        clientIdIssuedAt = client.clientIdIssuedAt,
-        clientSecret = client.clientSecret,
+        clientSecret = client.clientSecret ?: "",
         clientSecretExpiresAt = client.clientSecretExpiresAt,
         clientName = client.clientName,
         clientAuthenticationMethods = AuthenticationMethod.from(client.clientAuthenticationMethods),
